@@ -1,0 +1,24 @@
+server:
+  port: 99
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:hsql://localhost/testdb
+    username: sa
+    password:
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+      springframework: TRACE
+    com:
+      example: INFO
+environment:
+  profiles: dev
+  name: Developer App
+  url: http://localhost
