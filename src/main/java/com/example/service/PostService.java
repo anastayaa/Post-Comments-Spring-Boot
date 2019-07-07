@@ -30,7 +30,6 @@ public class PostService {
 
     public List<PostDTO> getAllPosts() {
         logger.info("Entering PostService.getAllPosts");
-        logger.info("Getting all Posts");
         List<PostDTO> posts = postMapper.toPostDTOs(postRepository.findAll());
         logger.info("Number of posts " + posts.size());
         logger.info("Exiting PostService.getAllPosts");
@@ -47,7 +46,6 @@ public class PostService {
         catch (EntityNotFoundException e) {
             throw new PostNotFoundException("Could not find post " + id);
         }
-
     }
 
     public PostDTO addPost(PostDTO newpost) {
@@ -64,25 +62,31 @@ public class PostService {
     }
 
     public PostDTO updatePost(PostDTO newPost, Long id) {
-        logger.info("Entering PostService.updatePost");
-        logger.info("Updating Post");
-        PostDTO post = postMapper.toPostDTO(postRepository.getOne(id));
-        post.setPostTitle(newPost.getPostTitle());
-        post.setPostDescription(newPost.getPostDescription());
-        post.setPostContent(newPost.getPostContent());
-        postRepository.save(postMapper.toPost(post));
-        logger.info("Post id: " + post.getPostId());
-        logger.info("Exiting PostService.updatePost");
-        return post;
+        logger.info("Entering PostService.updatePost {}", id);
+        try{
+            Post postEntity = postRepository.getOne(id);
+            PostDTO post = postMapper.toPostDTO(postEntity);
+            post.setPostTitle(newPost.getPostTitle());
+            post.setPostDescription(newPost.getPostDescription());
+            post.setPostContent(newPost.getPostContent());
+            postRepository.save(postMapper.toPost(post));
+            logger.info("Exiting PostService.updatePost");
+            return post;
+        }
+        catch (EntityNotFoundException e){
+            throw new PostNotFoundException("Could not find post " + id);
+        }
     }
 
     public void deletePost(Long id) {
-        logger.info("Entering PostService.deletePost");
-        logger.info("Deleting Post");
-        PostDTO post = postMapper.toPostDTO(
-                postRepository.getOne(id));
-        postRepository.delete(postMapper.toPost(post));
-        logger.info("Post id: " + id);
-        logger.info("Exiting PostService.deletePost");
+        logger.info("Entering PostService.deletePost {}", id);
+        try{
+            Post postEntity = postRepository.getOne(id);
+            postRepository.delete(postEntity);
+            logger.info("Exiting PostService.deletePost");
+        }
+        catch (EntityNotFoundException e){
+            throw new PostNotFoundException("Could not find post " + id);
+        }
     }
 }

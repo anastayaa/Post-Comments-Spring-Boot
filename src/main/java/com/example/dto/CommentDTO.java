@@ -1,7 +1,13 @@
 package com.example.dto;
 
+import lombok.*;
+
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Builder
 public class CommentDTO {
 
     private long commentId;
@@ -11,30 +17,8 @@ public class CommentDTO {
 
     private PostDTO postDTO;
 
-    public CommentDTO() {
-    }
-
-    public long getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(long commentId) {
-        this.commentId = commentId;
-    }
-
-    public String getCommentText() {
-        return commentText;
-    }
-
-    public void setCommentText(String commentText) {
+    @Builder
+    public CommentDTO(@NotNull String commentText) {
         this.commentText = commentText;
-    }
-
-    public PostDTO getPostDTO() {
-        return postDTO;
-    }
-
-    public void setPostDTO(PostDTO postDTO) {
-        this.postDTO = postDTO;
     }
 }

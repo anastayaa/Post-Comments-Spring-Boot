@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -8,7 +9,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="comments")
+@Getter
+@Setter
+@NoArgsConstructor
+@Builder
 public class Comment extends AuditModel{
 
 	@Id
@@ -24,32 +28,9 @@ public class Comment extends AuditModel{
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private Post post;
-	
-	public Comment() {
-	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
+	@Builder
+	public Comment(@NotNull String text) {
 		this.text = text;
 	}
-
-	public Post getPost() {
-		return post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
-	}
-	
 }

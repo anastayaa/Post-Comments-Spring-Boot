@@ -45,11 +45,8 @@ public class PostServiceTest {
         post.setDescription("DMy first post");
         post.setContent("My first content");
         list.add(post);
-
         Mockito.when(postRepository.findAll()).thenReturn(list);
-
         List<Post> posts = postMapper.toPosts(postService.getAllPosts());
-
         assertEquals(list.size(), posts.size());
         verify(postRepository, Mockito.times(1)).findAll();
     }
@@ -59,7 +56,7 @@ public class PostServiceTest {
         long id = 1;
         when(postRepository.getOne(id))
                 .thenReturn(new Post("First post", "My first post", "My first content"));
-        Post post = postMapper.toPost(postService.getOnePost((long) 1));
+        Post post = postMapper.toPost(postService.getOnePost(id));
         assertThat(post).isNotNull();
     }
 
